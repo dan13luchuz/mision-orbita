@@ -17,6 +17,7 @@ RESERVA_OXIGENO = 5
 CONSUMO_ENERGIA = 5
 ENERGIA_EXPLORACION = 10
 PROVISIONES_ADICIONALES = 3
+CANTIDAD_TRAYECTOS = 2
 
 # Entrada de datos
 # Se solicitan los datos básicos necesarios para calcular los recursos.
@@ -31,9 +32,9 @@ combustible_regreso = dias_viaje * CONSUMO_COMBUSTIBLE
 combustible_total = combustible_ida + combustible_regreso + RESERVA_COMBUSTIBLE
 
 # Se calculan los recursos considerando el viaje de ida y regreso.
-oxigeno_requerido = dias_viaje * CONSUMO_OXIGENO * tripulantes * 2 + RESERVA_OXIGENO
-energia_requerida = dias_viaje * CONSUMO_ENERGIA * 2 + ENERGIA_EXPLORACION
-provisiones_requeridas = dias_viaje * tripulantes * 2 + PROVISIONES_ADICIONALES
+oxigeno_requerido = dias_viaje * CONSUMO_OXIGENO * tripulantes * CANTIDAD_TRAYECTOS + RESERVA_OXIGENO
+energia_requerida = dias_viaje * CONSUMO_ENERGIA * CANTIDAD_TRAYECTOS + ENERGIA_EXPLORACION
+provisiones_requeridas = dias_viaje * tripulantes * CANTIDAD_TRAYECTOS + PROVISIONES_ADICIONALES
 
 # Salida de resultados
 # Se muestra el resumen completo de los recursos necesarios para la misión.
@@ -41,7 +42,7 @@ print()
 print("Resumen de la misión")
 print(f"Misión: {nombre_mision}")
 print(f"Tripulantes: {tripulantes}")
-print(f"Duración estimada hasta el destino: {dias_viaje} día(s)")
+print(f"Duración estimada hasta el destino: {dias_viaje} días")
 print(f"Combustible para llegar: {combustible_ida} unidades")
 print(f"Combustible para regresar: {combustible_regreso} unidades")
 print(f"Reserva de combustible: {RESERVA_COMBUSTIBLE} unidades")
