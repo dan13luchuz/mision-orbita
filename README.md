@@ -25,12 +25,19 @@ Periodo C3-2026
 
 ## Ejecución
 
-Los programas se desarrollan en Python y se ejecutan individualmente desde Visual Studio Code.
+1. Tener Python instalado en el equipo.
+2. Abrir el repositorio en Visual Studio Code.
+3. Abrir la carpeta `avance1`.
+4. Seleccionar el archivo `.py` correspondiente al ejercicio que se desea ejecutar.
+5. Ejecutar el programa con Python.
+6. Ingresar en la terminal los datos solicitados por el programa.
+
+Cada ejercicio se ejecuta de forma independiente.
 
 ## Convenciones y estilo
 
-- Los nombres de las variables se escribirán en `snake_case`.
-- Las constantes se escribirán en MAYÚSCULAS.
-- Se utilizará una indentación de 4 espacios.
-- Los programas utilizarán únicamente la consola para entrada y salida de datos.
-- Cada archivo incluirá comentarios que identifiquen sus principales bloques lógicos.
+- Los nombres de las variables se escriben en `snake_case`.
+- Las constantes se escriben en MAYÚSCULAS.
+- Se utiliza una indentación de 4 espacios.
+- Los programas utilizan únicamente la consola para entrada y salida de datos.
+- Cada archivo incluye comentarios que identifican sus principales bloques lógicos.
