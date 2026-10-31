@@ -2,9 +2,9 @@
 # Archivo: ejercicio8_regreso.py
 # Curso: SOFT-01 Principios de Programación 1 - Sección SCV3
 # Integrante: Daniel Barboza Álvarez
-# Fecha: 29/10/2026
-# Versión: 1.0
-# Descripción: Simula el regreso de la tripulación a la Tierra.
+# Fecha: 31/10/2026
+# Versión: 1.1
+# Descripción: Evalúa el regreso de la tripulación y calcula su supervivencia si queda varada.
 # ============================================================
 
 # Declaración de constantes
@@ -121,4 +121,63 @@ if combustible_disponible >= combustible_necesario_regreso:
 
         print("La tripulación no completó el regreso.")
 
-# El Caso B se implementará en la siguiente etapa del desarrollo.
+else:
+
+    # Caso B: la nave no posee combustible suficiente
+    # para iniciar el regreso y la tripulación queda varada.
+    print("La tripulación quedó varada en el destino.")
+
+    # Se calculan los días completos de supervivencia
+    # posibles según cada recurso.
+    dias_oxigeno = (
+        oxigeno_disponible // consumo_oxigeno_dia
+    )
+
+    dias_energia = (
+        energia_disponible // CONSUMO_ENERGIA_DIA
+    )
+
+    dias_provisiones = (
+        provisiones_disponibles // consumo_provisiones_dia
+    )
+
+    # Se determina el menor número de días sin utilizar min().
+    supervivencia_estimada = dias_oxigeno
+
+    if dias_energia < supervivencia_estimada:
+        supervivencia_estimada = dias_energia
+
+    if dias_provisiones < supervivencia_estimada:
+        supervivencia_estimada = dias_provisiones
+
+    # Se identifican todos los recursos que tengan
+    # el valor mínimo, respetando el orden solicitado.
+    recurso_limitante = ""
+
+    if dias_oxigeno == supervivencia_estimada:
+        recurso_limitante = "oxígeno"
+
+    if dias_energia == supervivencia_estimada:
+        if recurso_limitante == "":
+            recurso_limitante = "energía"
+        else:
+            recurso_limitante = recurso_limitante + ", energía"
+
+    if dias_provisiones == supervivencia_estimada:
+        if recurso_limitante == "":
+            recurso_limitante = "provisiones"
+        else:
+            recurso_limitante = recurso_limitante + ", provisiones"
+
+    # Salida de resultados de supervivencia
+    print(f"Días por oxígeno: {dias_oxigeno}")
+    print(f"Días por energía: {dias_energia}")
+    print(f"Días por provisiones: {dias_provisiones}")
+    print(
+        f"Supervivencia estimada: "
+        f"{supervivencia_estimada} días"
+    )
+    print(
+        f"Recurso(s) limitante(s): "
+        f"{recurso_limitante}"
+    )
