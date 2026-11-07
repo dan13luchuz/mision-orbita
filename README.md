@@ -34,7 +34,9 @@ mision-orbita/
 │   ├── ejercicio7_exploracion.py
 │   └── ejercicio8_regreso.py
 └── documentacion/
-    └── documentos PDF de los avances y ejercicios
+    ├── avance1.pdf
+    ├── Ejercicio7_Exploracion.pdf
+    └── Ejercicio8_Regreso.pdf
 ```
 
 ## Avance 1: Preparación de la misión
@@ -92,22 +94,6 @@ El programa contempla dos situaciones:
 
 Cada ejercicio se ejecuta de forma independiente.
 
-### Archivos del Avance 1
-
-```text
-avance1/ejercicio1_recursos.py
-avance1/ejercicio2_combustible.py
-avance1/ejercicio3_soporte_tripulacion.py
-avance1/ejercicio4_autorizacion.py
-```
-
-### Archivos del Avance 2
-
-```text
-avance2/ejercicio7_exploracion.py
-avance2/ejercicio8_regreso.py
-```
-
 ## Convenciones y estilo de programación
 
 - Los nombres de variables se escriben en `snake_case`.
@@ -120,3 +106,11 @@ avance2/ejercicio8_regreso.py
 - Cada ejercicio se mantiene en un archivo `.py` independiente.
 - Los ciclos terminan mediante sus propias condiciones y variables de control.
 - No se utilizan funciones propias, colecciones ni librerías externas en los ejercicios del segundo avance.
+
+## Retroalimentación del Avance 1
+
+En la evaluación del primer avance no se indicaron observaciones correctivas específicas. Por esta razón, no fue necesario aplicar correcciones derivadas de la retroalimentación docente.
+
+| Observación del docente | Corrección aplicada | Commit |
+| --- | --- | --- |
+| No se indicaron observaciones correctivas en la evaluación del Avance 1. | No aplica. No se requirieron correcciones. | No aplica |
