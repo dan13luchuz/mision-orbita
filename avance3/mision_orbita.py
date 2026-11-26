@@ -169,3 +169,97 @@ def mostrar_resumen(
             "Advertencia: el margen adicional "
             "de combustible es bajo."
         )
+
+
+def autorizar_lanzamiento(disponibles, requeridos):
+    # Todos los recursos deben alcanzar el mínimo requerido.
+    autorizado = True
+
+    for posicion in range(len(RECURSOS)):
+        if disponibles[posicion] < requeridos[posicion]:
+            autorizado = False
+
+    return autorizado
+
+
+# ============================================================
+# Componente B: Viaje de ida
+# ============================================================
+
+def calcular_consumo_diario(tripulantes):
+    # Calcula el consumo diario en el orden de RECURSOS.
+    consumo = [
+        CONSUMO_COMBUSTIBLE_DIA,
+        tripulantes * CONSUMO_OXIGENO_TRIPULANTE_DIA,
+        CONSUMO_ENERGIA_DIA,
+        tripulantes * CONSUMO_PROVISIONES_TRIPULANTE_DIA
+    ]
+
+    return consumo
+
+
+def viajar_al_destino(recursos, dias_viaje, tripulantes):
+    # Descuenta directamente el consumo total del viaje de ida.
+    consumo = calcular_consumo_diario(tripulantes)
+
+    for posicion in range(len(RECURSOS)):
+        recursos[posicion] = (
+            recursos[posicion]
+            - consumo[posicion] * dias_viaje
+        )
+
+    return recursos
+
+
+def recursos_alcanzan(recursos, consumo):
+    # Comprueba si todos los recursos alcanzan para un día.
+    suficientes = True
+
+    for posicion in range(len(RECURSOS)):
+        if recursos[posicion] < consumo[posicion]:
+            suficientes = False
+
+    return suficientes
+
+
+def simular_trayecto(recursos, dias, tripulantes):
+    # Inicializa el contador y el control del trayecto.
+    consumo = calcular_consumo_diario(tripulantes)
+    dias_completados = 0
+    puede_continuar = True
+
+    # Simula únicamente los días con recursos suficientes.
+    while dias_completados < dias and puede_continuar:
+        puede_continuar = recursos_alcanzan(
+            recursos, consumo
+        )
+
+        if puede_continuar:
+            for posicion in range(len(RECURSOS)):
+                recursos[posicion] = (
+                    recursos[posicion] - consumo[posicion]
+                )
+
+            dias_completados = dias_completados + 1
+
+            # Presenta los recursos después de cada día.
+            print(
+                f"Día {dias_completados} | "
+                f"Combustible: {recursos[COMBUSTIBLE]} | "
+                f"Oxígeno: {recursos[OXIGENO]} | "
+                f"Energía: {recursos[ENERGIA]} | "
+                f"Provisiones: {recursos[PROVISIONES]}"
+            )
+
+    return dias_completados
+
+
+def mostrar_recursos(recursos):
+    # Presenta las cantidades restantes de cada recurso.
+    print("Recursos restantes:")
+
+    for posicion in range(len(RECURSOS)):
+        print(
+            f"- {RECURSOS[posicion].capitalize()}: "
+            f"{recursos[posicion]} unidades"
+        )
