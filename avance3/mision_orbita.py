@@ -518,3 +518,101 @@ def regresar(recursos, dias_viaje, tripulantes):
     return resultado
 
 
+
+# ============================================================
+# Componente E: Reporte final ordenado
+# ============================================================
+
+def obtener_puntos_actividad(fila):
+    # Obtiene el criterio de ordenamiento de la actividad.
+    puntos = fila[BIT_PUNTOS]
+
+    return puntos
+
+
+def ordenar_bitacora(bitacora):
+    # Genera una matriz ordenada sin modificar la original.
+    bitacora_ordenada = sorted(
+        bitacora,
+        key=obtener_puntos_actividad,
+        reverse=True
+    )
+
+    return bitacora_ordenada
+
+
+def mostrar_reporte(mision, bitacora):
+    # Presenta los resultados finales de la misión.
+    print("=== REPORTE FINAL ===")
+    print(f"Misión: {mision[MIS_NOMBRE]}")
+    print(f"Destino: {mision[MIS_DESTINO]}")
+    print(f"Resultado: {mision[MIS_RESULTADO]}")
+    print(f"Puntos científicos: {mision[MIS_PUNTOS]}")
+
+    print(
+        "Bitácora de exploración "
+        "(de mayor a menor puntaje):"
+    )
+
+    if len(bitacora) == 0:
+        print("Sin actividades registradas.")
+
+    else:
+        bitacora_ordenada = ordenar_bitacora(bitacora)
+
+        for fila in bitacora_ordenada:
+            print(
+                f"#{fila[BIT_NUMERO]} "
+                f"{fila[BIT_ACTIVIDAD]} - "
+                f"{fila[BIT_PUNTOS]} puntos"
+            )
+
+
+# ============================================================
+# Componente F: Historial de misiones
+# ============================================================
+
+def obtener_puntos_mision(mision):
+    # Obtiene el puntaje utilizado para ordenar las misiones.
+    puntos = mision[MIS_PUNTOS]
+
+    return puntos
+
+
+def ordenar_historial(historial):
+    # Ordena las misiones sin alterar el historial original.
+    historial_ordenado = sorted(
+        historial,
+        key=obtener_puntos_mision,
+        reverse=True
+    )
+
+    return historial_ordenado
+
+
+def linea_mision(mision):
+    # Construye la línea de información de cada misión.
+    linea = (
+        f"#{mision[MIS_NUMERO]} "
+        f"{mision[MIS_NOMBRE]} | "
+        f"{mision[MIS_DESTINO]} | "
+        f"{mision[MIS_RESULTADO]} | "
+        f"{mision[MIS_PUNTOS]} puntos"
+    )
+
+    return linea
+
+
+def mostrar_historial(historial):
+    # Presenta las misiones registradas según su puntaje.
+    print("=== HISTORIAL DE MISIONES ===")
+
+    if len(historial) == 0:
+        print("No hay misiones registradas.")
+
+    else:
+        historial_ordenado = ordenar_historial(historial)
+
+        for mision in historial_ordenado:
+            linea = linea_mision(mision)
+            print(linea)
