@@ -263,3 +263,124 @@ def mostrar_recursos(recursos):
             f"- {RECURSOS[posicion].capitalize()}: "
             f"{recursos[posicion]} unidades"
         )
+
+
+
+# ============================================================
+# Componente C: Exploración con bitácora
+# ============================================================
+
+def mostrar_menu_actividades():
+    # Presenta las actividades disponibles en la exploración.
+    numero = 1
+
+    for actividad in ACTIVIDADES:
+        print(f"{numero}. {actividad[ACT_NOMBRE]}")
+        numero = numero + 1
+
+    print(f"{len(ACTIVIDADES) + 1}. Finalizar exploración")
+
+
+def explorar(recursos):
+    # La bitácora conserva las actividades en orden de ejecución.
+    bitacora = []
+    exploracion_activa = True
+
+    while exploracion_activa:
+        mostrar_menu_actividades()
+        opcion = int(input("Seleccione una actividad: "))
+
+        if opcion == len(ACTIVIDADES) + 1:
+            print("Exploración finalizada por la tripulación.")
+            exploracion_activa = False
+
+        elif 1 <= opcion <= len(ACTIVIDADES):
+            actividad = ACTIVIDADES[opcion - 1]
+
+            # Verifica los recursos antes de realizar la actividad.
+            if (
+                recursos[COMBUSTIBLE]
+                >= actividad[ACT_COMBUSTIBLE]
+                and recursos[ENERGIA]
+                >= actividad[ACT_ENERGIA]
+                and recursos[PROVISIONES]
+                >= actividad[ACT_PROVISIONES]
+            ):
+                recursos[COMBUSTIBLE] = (
+                    recursos[COMBUSTIBLE]
+                    - actividad[ACT_COMBUSTIBLE]
+                )
+
+                recursos[ENERGIA] = (
+                    recursos[ENERGIA]
+                    - actividad[ACT_ENERGIA]
+                )
+
+                recursos[PROVISIONES] = (
+                    recursos[PROVISIONES]
+                    - actividad[ACT_PROVISIONES]
+                )
+
+                # Registra únicamente las actividades completadas.
+                bitacora.append([
+                    len(bitacora) + 1,
+                    actividad[ACT_NOMBRE],
+                    actividad[ACT_PUNTOS]
+                ])
+
+                print(
+                    f"Actividad realizada: "
+                    f"{actividad[ACT_NOMBRE]}. "
+                    f"Puntos obtenidos: "
+                    f"{actividad[ACT_PUNTOS]}"
+                )
+
+            else:
+                print(
+                    "Recursos insuficientes para realizar "
+                    "la actividad. La exploración finaliza."
+                )
+                exploracion_activa = False
+
+        else:
+            print("Opción no válida.")
+
+    return bitacora
+
+
+def contar_actividad(bitacora, nombre_actividad):
+    # Cuenta las apariciones de la actividad indicada.
+    cantidad = 0
+
+    for fila in bitacora:
+        if fila[BIT_ACTIVIDAD] == nombre_actividad:
+            cantidad = cantidad + 1
+
+    return cantidad
+
+
+def calcular_puntos(bitacora):
+    # Acumula los puntos de las actividades completadas.
+    puntos = 0
+
+    for fila in bitacora:
+        puntos = puntos + fila[BIT_PUNTOS]
+
+    return puntos
+
+
+def mostrar_resumen_exploracion(bitacora, recursos):
+    # Calcula los resultados a partir de la bitácora.
+    muestras = contar_actividad(
+        bitacora, "Recolectar muestra"
+    )
+
+    puntos = calcular_puntos(bitacora)
+
+    print(f"Actividades realizadas: {len(bitacora)}")
+    print(f"Muestras recolectadas: {muestras}")
+    print(f"Puntos científicos: {puntos}")
+
+    mostrar_recursos(recursos)
+
+
