@@ -616,3 +616,148 @@ def mostrar_historial(historial):
         for mision in historial_ordenado:
             linea = linea_mision(mision)
             print(linea)
+
+
+
+# ============================================================
+# Integración del sistema Misión Órbita
+# ============================================================
+
+def ejecutar_mision(numero):
+    # Solicita los datos iniciales de planificación.
+    print("=== PLANIFICACIÓN ===")
+
+    nombre_mision = input("Nombre de la misión: ")
+    tripulantes = int(input("Cantidad de tripulantes: "))
+
+    mostrar_destinos()
+    opcion = int(input("Seleccione un destino: "))
+
+    # La bitácora permanece vacía si no hay exploración.
+    bitacora = []
+
+    if 1 <= opcion <= len(DESTINOS):
+        destino = DESTINOS[opcion - 1]
+        nombre_destino = destino[DES_NOMBRE]
+        dias_viaje = destino[DES_DIAS]
+
+        # Calcula y compara los recursos de planificación.
+        recursos = leer_recursos()
+
+        requeridos = calcular_requeridos(
+            dias_viaje, tripulantes
+        )
+
+        mostrar_resumen(
+            nombre_mision, nombre_destino,
+            dias_viaje, tripulantes,
+            recursos, requeridos
+        )
+
+        autorizado = autorizar_lanzamiento(
+            recursos, requeridos
+        )
+
+        if autorizado:
+            print("Lanzamiento autorizado.")
+
+            # Ejecuta el viaje mediante descuento directo.
+            print("=== VIAJE DE IDA ===")
+
+            recursos = viajar_al_destino(
+                recursos, dias_viaje, tripulantes
+            )
+
+            print(
+                f"La nave llegó a {nombre_destino} "
+                f"en {dias_viaje} días."
+            )
+
+            mostrar_recursos(recursos)
+
+            # Realiza la exploración y registra las actividades.
+            print("=== EXPLORACIÓN ===")
+
+            bitacora = explorar(recursos)
+
+            mostrar_resumen_exploracion(
+                bitacora, recursos
+            )
+
+            # Evalúa el regreso o la supervivencia.
+            resultado = regresar(
+                recursos, dias_viaje, tripulantes
+            )
+
+        else:
+            print(
+                "Lanzamiento no autorizado. "
+                "La misión debe ser revisada."
+            )
+
+            resultado = "No autorizada"
+
+    else:
+        print(
+            "Opción de destino no válida. "
+            "La misión no puede planificarse."
+        )
+
+        nombre_destino = "Ninguno"
+        resultado = "No planificada"
+
+    # Todas las misiones generan un reporte final,
+    # independientemente de su resultado.
+    puntos = calcular_puntos(bitacora)
+
+    mision = [
+        numero,
+        nombre_mision,
+        nombre_destino,
+        resultado,
+        puntos
+    ]
+
+    mostrar_reporte(mision, bitacora)
+
+    return mision
+
+
+def mostrar_menu_principal():
+    # Presenta las opciones del sistema individual.
+    print("===== MISIÓN ÓRBITA =====")
+    print("1. Planificar y ejecutar una misión")
+    print("2. Ver historial de misiones")
+    print("3. Salir")
+
+
+def main():
+    # Conserva las misiones durante la ejecución del sistema.
+    historial = []
+    sistema_activo = True
+
+    while sistema_activo:
+        mostrar_menu_principal()
+
+        opcion = int(input("Seleccione una opción: "))
+
+        if opcion == 1:
+            mision = ejecutar_mision(
+                len(historial) + 1
+            )
+
+            historial.append(mision)
+
+        elif opcion == 2:
+            mostrar_historial(historial)
+
+        elif opcion == 3:
+            sistema_activo = False
+
+        else:
+            print("Opción no válida.")
+
+    print("Fin del sistema Misión Órbita.")
+
+
+main()
